@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Gestion des produits</div>
+  <div class="panel-body">
+    <div *ngIf="mode=='list'">
+      <table class="table table-condensed" *ngIf="products">
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+        </tr>
+        <tr *ngFor="let p of products._embedded.products">
+          <td>{{p.name}}</td>
+          <td>{{p.price}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="onDeleteProd(c)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="onEditProd(c)">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+          </td>
+          <br><br>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
