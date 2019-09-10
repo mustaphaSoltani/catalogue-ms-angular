@@ -29,3 +29,20 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 "# catalogue-ms-angular" 
+
+
+ng new catalogueWebAppC
+
+npm install
+
+npm install --save bootstrap@4
+
+npm install --save jquery@3
+
+ng g c catalogue
+
+ng g s service/catalogue
+
+npm install @auth0/angular-jwt
+
+ng build --prod     -------index.html changer base href=""
