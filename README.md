@@ -49,10 +49,10 @@ ng build --prod     -------index.html changer base href=""
 
 ## Git
 
--master :Le code est placé dans la branche principale appelée master par défaut. 
--git branch: retourne les branches présentes, et ajoute une étoile devant la branche dans laquelle vous êtes placés
--git branch nouvelle-branche: Pour créer une nouvelle branche,
--git checkout nouvelle-branche: placer dans une autre branche à l'intérieur du repo
--git blame nomdufichier.extension:Pour retrouver qui a modifié une ligne précise de code dans un projet puis git show sha qui vous renvoie directement les détails du commit recherché en saisissant le début de son sha
--git branch -d ma-branche: supprimer une branche dans Git
--git stash: mettre de côté ses modifications de façon temporaire sans faire de commit
+- master :Le code est placé dans la branche principale appelée master par défaut. 
+- git branch: retourne les branches présentes, et ajoute une étoile devant la branche dans laquelle vous êtes placés
+- git branch nouvelle-branche: Pour créer une nouvelle branche,
+- git checkout nouvelle-branche: placer dans une autre branche à l'intérieur du repo
+- git blame nomdufichier.extension:Pour retrouver qui a modifié une ligne précise de code dans un projet puis git show sha qui vous renvoie directement les détails du commit recherché en saisissant le début de son sha
+- git branch -d ma-branche: supprimer une branche dans Git
+- git stash: mettre de côté ses modifications de façon temporaire sans faire de commit
