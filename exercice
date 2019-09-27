@@ -1,0 +1,55 @@
+En tant qu'administrateur,
+Je souhaite, paramétrer des habilitations pour un utilisateur donné
+Afin qu'il puisse accéder uniquement aux workflows pour lesquels il est habilité.
+
+RG1 : A partir de la liste des workflows existants dans un RP pour lequel le user est habilité, pouvoir sélectionner le/les workflows du RP auxquels habiliter le user
+
+RG2 : Les droits d'un utilisateur sur un workflow sont persistants en cas de modifications du workflow
+
+RG3 : Lorsqu'un utilisateur a accés à un workflow, il a accès à toutes les tâches du workflow en lecture et écriture (pour le MVP 2, a prévoir changement pour la suite)
+
+RG4 : pour les profils MOE, ADMIN, et user type super user, pas besoin de sélectionner les workflows, par défaut, a accès à tous les workflows des RP auxquels sont habilités
+
+RG5 : par défaut, aucun workflow de sélectionné dans la liste décrite en RG1
+
+Scénario 1 (RG1) :
+
+GIVEN je suis admin
+AND je paramètre les accès de l'UID d03032
+
+AND l'UID d03032 est user sur le RP STBCE_2019
+
+AND j'ai cliqué sur le bouton "Access"
+
+AND je vois tous les workflows créés dans le RP STBCE_2019, à savoir : CONS Signif CCY, SUBCONS, CONS All CCYS, COLLMOB, ADD MEMO, ST BCE
+
+WHEN je sélectionne les WF CONS ALL CCYS et SUBCONS
+
+AND je clique Save
+
+THEN les paramétrages d'accès au WF ALL CCYS et SUBCONS sont sauvegardés pour l'UID d03032
+
+ 
+
+Scénario 2 (RG2) :
+
+GIVEN je suis admin
+
+AND je suis en train d'éditer le WF ADD MEMO du RP STBCE_2019
+
+AND l'UID d03032 ainsi que l'UID c17900 ont accès au WF ADD MEMO
+
+WHEN je rajoute un tâche de "Contrôle" dans le WF
+
+THEN je constate que les paramétrages pour les UID d03032 ainsi c17900 sont restés les mêmes quant à leur accès au WF ADD MEMO
+ 
+
+Scénario 3 :
+
+GIVEN je suis admin
+
+AND je paramètre les droits d'accès aux WF de l'UID d03032
+
+WHEN je donne les accès au WF SUBCONS
+
+THEN l'uid d03032 peut accéder à toutes les tâches du workflow et au template(s) du workflow
