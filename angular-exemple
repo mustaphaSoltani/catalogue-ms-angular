@@ -1,0 +1,117 @@
+if (task.type == 'signOff') {
+            this.selectedTask = task;
+            if (!this.editMode) {
+                this.displaySignOff = true;
+                console.log('signOff...............', this.displaySignOff)
+            }
+            this.selectedTask.appearence.classes += ' selectedTask';
+            if (!this.templateSheets) {
+                this.processService.getSheets(this.currentProcessId).subscribe(
+                    sheets => {
+                        this.templateSheets = sheets;
+                        this.getSheetsInWf();
+                    }
+                );
+
+            } else {
+                this.getSheetsInWf();
+            }
+            
+        }
+        --------------------------------------------------------------------------
+---------------------------------------------------------------------------
+        <app-sign-off-popin *ngIf="selectedTask.type === 'signOff' && !editMode" [displaySignOff]="displaySignOff"
+    [task]="selectedTask" [sheets]="sheetsToExport" (closeDialog)="onCloseSignOff($event)"></app-sign-off-popin>
+    --------------------------------------------------------------------------
+---------------------------------------------------------------------------
+    <p-dialog  header="{{header}}" [(visible)]="displaySignOff" modal="true" appendTo="body" blockScroll="true" dismissableMask="true" (onHide)="onHide($event)">
+
+    <p>Are you sure you want to Sign off the workflow  <strong> {{currentWf?.code}}  </strong>?</p>
+
+    <p-footer>
+        <span>
+            <p-button  label="Yes" (click)="confirmSignOff()" icon="pi pi-lock" iconPos="right">
+            </p-button>
+
+            <p-button  label="Go back" (click)="cancelSignOff()" icon="pi pi-ban" iconPos="right">
+            </p-button>
+        </span>
+    </p-footer>
+</p-dialog>
+--------------------------------------------------------------------------
+---------------------------------------------------------------------------
+currentWfId: number;
+  currentProcessId: number;
+  @Input() task: Task;
+  @Input() sheets: Array<SheetDTO>;
+  @Input() displaySignOff: boolean;
+  selectedSheets: number[];
+  header = 'Confirmation SignOff';
+  @Output() closeDialog = new EventEmitter<boolean>();
+  displayConfirmation: boolean = false;
+  currentWf: Workflow;
+
+  constructor(private workflowService: WorkflowService,
+    private messageService: MessageService) { }
+
+  ngOnChanges() {
+    this.currentWf = JSON.parse(sessionStorage.getItem('currentWf'));
+    this.currentProcessId = JSON.parse(sessionStorage.getItem('currentProcess')).id;
+
+  }
+  confirmSignOff() {
+    let namesSheets = this.sheets.map(item => item.name);
+    this.workflowService.signOff(namesSheets, +this.currentProcessId, +this.currentWf.id).subscribe(
+      res => {
+
+        console.log('audit signOff ', res);
+        console.log('nom workflow   :', this.currentWf);
+        this.showSuccess(this.currentWf.code);
+      },
+      error => {
+        console.log('error audit signOff ', error);
+      }
+    );
+    this.displaySignOff = false;
+    this.displayConfirmation = false;
+  }
+
+  cancelSignOff() {
+    this.displaySignOff = false;
+  }
+
+  onHide(event: any) {
+    this.selectedSheets = undefined;
+    this.header = '';
+    this.closeDialog.emit(this.displaySignOff);
+  }
+
+  showSuccess(code): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'The workflow ' + code + '   has been Sign offed. ',
+      life: 7000
+    });
+  }
+
+}
+--------------------------------------------------------------------------
+---------------------------------------------------------------------------
+signOff(nameSheets:string[],idRp: number,idWorkflow: number): Observable<any>{
+        const url = '/front/api/signOff?reportingProcessId='+ idRp+'&workflowId='+ idWorkflow;
+        return this.http.post(url,nameSheets);
+    }
+    ------------------------------------JAVA------------------------------------------------
+    ----------------------------------------------------------------------------------------
+    List<Integer> workflowsForRP = user.getAutorizedWorkflows().stream()
+                    .filter(workflow -> workflow.getReportingProcessId().equals(idReportingProcess))
+                    .map(Workflow::getId)
+                    .collect(toList());
+                    
+     public boolean isAuthorizedForWorflow(Integer workflowId){
+        return  !this.profile.getCodeProfile().equals("User")
+                || this.getAutorizedWorkflows().stream()
+                .map(Workflow::getId)
+                .anyMatch(workflowId::equals);
+    }
+    
